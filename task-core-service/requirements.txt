@@ -1,0 +1,8 @@
+django
+djangorestframework
+psycopg2-binary
+tenacity
+pybreaker
+tenacity
+requests
+kafka-python

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Tareas</title>
+    <style>
+        body { font-family: Arial; margin: 2rem; }
+        h1 { color: #2c3e50; }
+        ul { list-style: none; padding: 0; }
+        li {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: #ecf0f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            cursor: pointer;
+        }
+        form input[type="text"] {
+            padding: 0.5rem;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Tareas</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Nueva tarea..." required>
+        <button type="submit">Agregar</button>
+    </form>
+
+    <ul>
+        {% for task in tasks %}
+        <li>
+    {{ task.title }}
+    {% if not task.completed %}
+        <form method="POST" action="{% url 'complete_task' task.id %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit">✔ Terminado</button>
+</form>
+    {% else %}
+        <span style="color: green;">✔ Realizado</span>
+    {% endif %}
+    
+    <form method="POST" action="{% url 'delete_task' task.id %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Eliminar</button>
+    </form>
+</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

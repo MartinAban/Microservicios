@@ -1,0 +1,64 @@
+#Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+#SQLite DBs
+*.sqlite3
+*.db
+
+# Archivos temporales
+*.log
+*.pot
+*.pyc
+*.pyo
+*.orig
+*.swp
+*.swo
+*~
+
+#Archivos de entorno virtual
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+#Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+#Archivos docker
+*.pid
+*.sock
+*.pid.lock
+
+# Docker volumes
+volumes/
+data/
+
+#carpetas de tests
+htmlcov/
+.coverage
+.tox/
+.nox/
+coverage.xml
+*.cover
+.cache
+.pytest_cache/
+nosetests.xml
+test-results/
+
+
+#comprimidos
+*.zip
+*.tar.gz
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+
