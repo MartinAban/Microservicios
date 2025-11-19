@@ -62,3 +62,22 @@ test-results/
 *.iml
 
 
+#auth
+auth-service/db.sqlite3
+auth-service/__pycache__/
+auth-service/*.pyc
+auth-service/*.log
+auth-service/*.pid
+auth-service/*.lock
+auth-service/.env
+auth-service/venv/
+auth-service/.venv/
+auth-service/.mypy_cache/
+auth-service/.pytest_cache/
+auth-service/**/migrations/
+auth-service/**/migrations/*.pyc
+auth-service/**/migrations/*.py
+!auth-service/**/migrations/__init__.py
+auth-service/coverage.xml
+auth-service/htmlcov/
+auth-service/.coverage

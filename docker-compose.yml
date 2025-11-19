@@ -1,5 +1,9 @@
 version: '3.9'
 
+# 🔁 Variables de entorno compartidas
+x-shared-environment: &shared-env
+  JWT_SIGNING_KEY: "super-secret-signing-key-shared-between-services"
+
 services:
   task-core-service:
     build:
@@ -13,6 +17,9 @@ services:
       sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - stats-load-balancer
+      - auth-service
+    environment:
+      <<: *shared-env
 
   task-stats-service-1:
     build:
@@ -22,6 +29,8 @@ services:
       - ./task-stats-service:/app
     command: >
       sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8001"
+    environment:
+      <<: *shared-env
 
   task-stats-service-2:
     build:
@@ -31,13 +40,15 @@ services:
       - ./task-stats-service:/app
     command: >
       sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8001"
+    environment:
+      <<: *shared-env
 
   stats-load-balancer:
     build:
       context: ./stats-load-balancer
     container_name: stats-load-balancer
     ports:
-      - "8001:80"  # dirige tráfico  al load balancer
+      - "8001:80"
     depends_on:
       - task-stats-service-1
       - task-stats-service-2
@@ -82,5 +93,20 @@ services:
     container_name: task-stats-consumer
     depends_on:
       - kafka
-      - task-stats-service-1  #migrado
+      - task-stats-service-1
     command: python manage.py start_consumer
+    environment:
+      <<: *shared-env
+
+  auth-service:
+    build:
+      context: ./auth-service
+    container_name: auth-service
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./auth-service:/app
+    command: >
+      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8002"
+    environment:
+      <<: *shared-env
